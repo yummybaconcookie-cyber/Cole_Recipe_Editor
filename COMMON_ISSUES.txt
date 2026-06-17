@@ -1,0 +1,125 @@
+=========================================================
+  CRE MOD - COMMON ISSUES & FIXES
+=========================================================
+
+---------------------------------------------------------
+ISSUE: The mod doesn't show up in Minecraft mod list
+---------------------------------------------------------
+CAUSE: The .jar wasn't placed in the right folder, or
+       a required dependency is missing.
+FIX:
+1. Make sure ALL required mods are installed:
+   - KubeJS (kubejs-neoforge-2101.x.x)
+   - KubeJS Create (kubejs-create-neoforge-2101.x.x)
+   - Create (create-1.21.1-6.0.x)
+2. Check the mods folder path:
+   C:\Users\[Name]\AppData\Roaming\.minecraft\mods\
+3. Make sure you're using NeoForge 1.21.1, NOT Fabric or Forge
+
+---------------------------------------------------------
+ISSUE: F8 doesn't open the GUI
+---------------------------------------------------------
+CAUSE: Key conflict with another mod, or not OP on server.
+FIX:
+1. Go to Options > Controls > Keybinds
+   Search for "Cole's Recipe Editor" and rebind if needed
+2. On a server, make sure you are OP level 2+:
+   Run: /op [yourname]   (from server console or another op)
+3. Make sure you're in-game (not in a menu already)
+
+---------------------------------------------------------
+ISSUE: /CRE commands say "Unknown command"
+---------------------------------------------------------
+CAUSE: You are not OP, or the mod didn't load correctly.
+FIX:
+1. Check you are OP: run /op [yourname] from server console
+2. Check the mod loaded: run /mods in chat
+3. Restart the server/world after installing the mod
+
+---------------------------------------------------------
+ISSUE: Recipe changes don't take effect
+---------------------------------------------------------
+CAUSE: You need to run /CRE reload after saving changes.
+FIX:
+1. In the GUI, click "Save Changes"
+2. Then run the command: /CRE reload
+3. Wait for the reload to complete (screen may freeze briefly)
+4. If on a server, all players will see the changes
+
+---------------------------------------------------------
+ISSUE: JEI still shows a recipe I disabled
+---------------------------------------------------------
+CAUSE: You haven't reloaded yet, or JEI needs a refresh.
+FIX:
+1. Run /CRE reload
+2. Wait for reload to complete
+3. If JEI still shows it, press R or U on the item in JEI
+   to refresh its display
+
+---------------------------------------------------------
+ISSUE: GitHub Actions build FAILED (red X)
+---------------------------------------------------------
+CAUSE: Various possible issues with the build process.
+FIX:
+1. Click on the failed run in the Actions tab
+2. Click on the "build" job
+3. Expand the step that failed (red X)
+4. Read the error message
+
+Common build errors:
+  - "Could not resolve net.neoforged:neoforge:..."
+    FIX: NeoForge maven was temporarily down. Try re-running:
+         Actions > "Run workflow" button
+
+  - "Execution failed for task ':compileJava'"
+    FIX: There's a Java error in the code. Please contact
+         support with the full error message shown.
+
+  - "Timeout" or build takes more than 30 minutes
+    FIX: GitHub's servers may be slow. Try again later.
+         Actions > "Run workflow" > "Run workflow"
+
+---------------------------------------------------------
+ISSUE: "This mod is not compatible with your server"
+---------------------------------------------------------
+CAUSE: The server doesn't have CRE installed, or version mismatch.
+FIX:
+1. Install CRE on the SERVER too (in the server's mods folder)
+2. Make sure server and client have the SAME version of CRE
+
+---------------------------------------------------------
+ISSUE: "Recipe string invalid" when pasting a string
+---------------------------------------------------------
+CAUSE: The string format doesn't match what CRE expects.
+FIX:
+1. Only paste strings that were exported FROM CRE
+2. Make sure you copied the complete string (no truncation)
+3. The format should look like valid JSON or KubeJS JavaScript
+
+---------------------------------------------------------
+ISSUE: Can't delete a recipe
+---------------------------------------------------------
+CAUSE: You can only delete a recipe after disabling it first.
+FIX:
+1. Open the recipe detail view (click on the recipe row)
+2. Click the toggle to DISABLE the recipe first
+3. Then the Delete button will become available
+
+---------------------------------------------------------
+ISSUE: Crushing/Mixing/Create recipes don't appear in list
+---------------------------------------------------------
+CAUSE: Create recipes require KubeJS Create to be installed.
+FIX:
+1. Make sure kubejs-create-neoforge-2101.x.x is in your mods
+2. Recipes from Create mods will show up with type names like
+   "CREATE_MIXING", "CREATE_CRUSHING" etc.
+
+---------------------------------------------------------
+STILL HAVING ISSUES?
+---------------------------------------------------------
+If none of the above fixes your problem, please note:
+- The exact error message you see
+- What Minecraft/NeoForge/KubeJS version you're using
+- What you were trying to do when the issue happened
+
+=========================================================

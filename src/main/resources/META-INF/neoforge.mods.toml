@@ -1,0 +1,54 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "cre"
+version = "1.0.0"
+displayName = "Cole's Recipe Editor"
+description = '''
+Cole's Recipe Editor (CRE) - A powerful in-game GUI for creating, editing, enabling, and disabling recipes.
+Requires KubeJS and KubeJS Create.
+'''
+
+[[dependencies.cre]]
+    modId = "neoforge"
+    type = "required"
+    versionRange = "[21.1,)"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.cre]]
+    modId = "minecraft"
+    type = "required"
+    versionRange = "[1.21.1,1.22)"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.cre]]
+    modId = "kubejs"
+    type = "required"
+    versionRange = "[2101.7,)"
+    ordering = "AFTER"
+    side = "BOTH"
+
+[[dependencies.cre]]
+    modId = "create"
+    type = "optional"
+    versionRange = "[6.0,)"
+    ordering = "AFTER"
+    side = "BOTH"
+
+[[dependencies.cre]]
+    modId = "kubejs_create"
+    type = "optional"
+    versionRange = "[2101.3,)"
+    ordering = "AFTER"
+    side = "BOTH"
+
+[[dependencies.cre]]
+    modId = "jei"
+    type = "optional"
+    versionRange = "[19,)"
+    ordering = "AFTER"
+    side = "CLIENT"

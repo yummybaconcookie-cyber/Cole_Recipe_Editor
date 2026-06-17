@@ -1,0 +1,84 @@
+=========================================================
+  HOW TO BUILD CRE MOD USING GITHUB ACTIONS (FREE)
+=========================================================
+
+This guide walks you through uploading the mod source to
+GitHub and getting a downloadable .jar file automatically.
+
+STEP 1: Create a GitHub Account
+--------------------------------
+1. Go to https://github.com
+2. Click "Sign up" and create a free account
+3. Verify your email address
+
+STEP 2: Create a New Repository
+---------------------------------
+1. Click the "+" button in the top right of GitHub
+2. Select "New repository"
+3. Name it something like "coles-recipe-editor"
+4. Set it to "Private" (so only you can see it)
+5. Do NOT check any "Initialize repository" options
+6. Click "Create repository"
+
+STEP 3: Upload the Mod Files
+------------------------------
+Option A - Using GitHub Desktop (easiest):
+1. Download GitHub Desktop from https://desktop.github.com
+2. Install and sign in with your GitHub account
+3. Click "File" > "Add Local Repository"
+4. Browse to the "cre-mod" folder you downloaded
+5. Click "Publish repository"
+6. Make sure "Keep this code private" is checked
+7. Click "Publish Repository"
+
+Option B - Using the GitHub website (drag and drop):
+1. Open your new repository on GitHub
+2. Click "uploading an existing file"
+3. Drag ALL files from the cre-mod folder into the browser
+4. Make sure to include hidden folders like .github/
+   (You may need to enable "show hidden files" on Windows:
+    In File Explorer, View > Show > Hidden items)
+5. Scroll down, type "Initial commit" and click "Commit changes"
+
+STEP 4: Watch It Build
+-----------------------
+1. On your GitHub repository page, click the "Actions" tab
+2. You should see a workflow called "Build CRE Mod" running
+3. Wait for the circle to turn green (takes 5-15 minutes)
+   - Yellow circle = building
+   - Green circle = success!
+   - Red circle = error (see COMMON_ISSUES.txt)
+
+STEP 5: Download Your .jar
+----------------------------
+1. Click on the green "Build CRE Mod" workflow run
+2. Scroll down to the "Artifacts" section at the bottom
+3. Click "CRE-mod-jar" to download a zip file
+4. Unzip it - inside is your "cre-1.0.0.jar" file
+5. Put that .jar in your Minecraft mods folder:
+   C:\Users\[YourName]\AppData\Roaming\.minecraft\mods\
+
+STEP 6: Rebuilding After Changes
+----------------------------------
+If you ever need to rebuild (e.g., after a fix):
+1. Make any changes to the files
+2. Upload/push the updated files to GitHub
+3. GitHub will automatically start a new build
+4. Repeat Step 5 to download the new .jar
+
+=========================================================
+  IMPORTANT NOTES
+=========================================================
+
+- The build takes 5-15 minutes the FIRST time (downloading
+  NeoForge MDK). Subsequent builds are much faster.
+
+- If the build fails, check COMMON_ISSUES.txt first.
+
+- You can re-trigger a build manually:
+  Actions tab > Build CRE Mod > "Run workflow" button
+
+- Free GitHub accounts get 2000 build minutes per month,
+  which is more than enough for this.
+
+=========================================================
