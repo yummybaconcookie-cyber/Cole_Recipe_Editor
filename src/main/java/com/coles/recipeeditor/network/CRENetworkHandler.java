@@ -4,15 +4,11 @@ import com.coles.recipeeditor.CREMod;
 import com.coles.recipeeditor.kubejs.KubeJSScriptManager;
 import com.coles.recipeeditor.recipe.CRERecipeEntry;
 import com.coles.recipeeditor.recipe.RecipeStateManager;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = CREMod.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
@@ -22,53 +18,36 @@ public class CRENetworkHandler {
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar("1");
 
-        registrar.playBidirectional(
+        registrar.playToServer(
             CRETogglePacket.TYPE,
             CRETogglePacket.STREAM_CODEC,
-            new DirectionalPayloadHandler<>(
-                (payload, ctx) -> {}, // client → server handled server-side
-                (payload, ctx) -> CRENetworkHandler.handleToggleOnServer(payload, ctx)
-            )
+            CRENetworkHandler::handleToggleOnServer
         );
 
-        registrar.playBidirectional(
+        registrar.playToServer(
             CREAddRecipePacket.TYPE,
             CREAddRecipePacket.STREAM_CODEC,
-            new DirectionalPayloadHandler<>(
-                (payload, ctx) -> {},
-                (payload, ctx) -> CRENetworkHandler.handleAddRecipeOnServer(payload, ctx)
-            )
+            CRENetworkHandler::handleAddRecipeOnServer
         );
 
-        registrar.playBidirectional(
+        registrar.playToServer(
             CREDeleteRecipePacket.TYPE,
             CREDeleteRecipePacket.STREAM_CODEC,
-            new DirectionalPayloadHandler<>(
-                (payload, ctx) -> {},
-                (payload, ctx) -> CRENetworkHandler.handleDeleteOnServer(payload, ctx)
-            )
+            CRENetworkHandler::handleDeleteOnServer
         );
 
-        registrar.playBidirectional(
+        registrar.playToServer(
             CRESavePacket.TYPE,
             CRESavePacket.STREAM_CODEC,
-            new DirectionalPayloadHandler<>(
-                (payload, ctx) -> {},
-                (payload, ctx) -> CRENetworkHandler.handleSaveOnServer(payload, ctx)
-            )
+            CRENetworkHandler::handleSaveOnServer
         );
 
-        registrar.playBidirectional(
+        registrar.playToServer(
             CREReloadPacket.TYPE,
             CREReloadPacket.STREAM_CODEC,
-            new DirectionalPayloadHandler<>(
-                (payload, ctx) -> {},
-                (payload, ctx) -> CRENetworkHandler.handleReloadOnServer(payload, ctx)
-            )
+            CRENetworkHandler::handleReloadOnServer
         );
     }
-
-    // ===== Client-side sends =====
 
     public static void sendToggleRecipe(String id, boolean enabled) {
         PacketDistributor.sendToServer(new CRETogglePacket(id, enabled));
@@ -90,9 +69,7 @@ public class CRENetworkHandler {
         PacketDistributor.sendToServer(new CREReloadPacket());
     }
 
-    // ===== Server-side handlers =====
-
-    private static void handleToggleOnServer(CRETogglePacket payload, net.neoforged.neoforge.network.handling.IPayloadContext ctx) {
+    private static void handleToggleOnServer(CRETogglePacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             if (!ctx.sender().hasPermissions(2)) return;
             RecipeStateManager state = RecipeStateManager.getInstance();
@@ -105,7 +82,7 @@ public class CRENetworkHandler {
         });
     }
 
-    private static void handleAddRecipeOnServer(CREAddRecipePacket payload, net.neoforged.neoforge.network.handling.IPayloadContext ctx) {
+    private static void handleAddRecipeOnServer(CREAddRecipePacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             if (!ctx.sender().hasPermissions(2)) return;
             try {
@@ -121,7 +98,7 @@ public class CRENetworkHandler {
         });
     }
 
-    private static void handleDeleteOnServer(CREDeleteRecipePacket payload, net.neoforged.neoforge.network.handling.IPayloadContext ctx) {
+    private static void handleDeleteOnServer(CREDeleteRecipePacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             if (!ctx.sender().hasPermissions(2)) return;
             RecipeStateManager state = RecipeStateManager.getInstance();
@@ -132,7 +109,7 @@ public class CRENetworkHandler {
         });
     }
 
-    private static void handleSaveOnServer(CRESavePacket payload, net.neoforged.neoforge.network.handling.IPayloadContext ctx) {
+    private static void handleSaveOnServer(CRESavePacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             if (!ctx.sender().hasPermissions(2)) return;
             KubeJSScriptManager.writeScripts();
@@ -140,7 +117,7 @@ public class CRENetworkHandler {
         });
     }
 
-    private static void handleReloadOnServer(CREReloadPacket payload, net.neoforged.neoforge.network.handling.IPayloadContext ctx) {
+    private static void handleReloadOnServer(CREReloadPacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
             if (!ctx.sender().hasPermissions(2)) return;
             KubeJSScriptManager.writeScripts();
