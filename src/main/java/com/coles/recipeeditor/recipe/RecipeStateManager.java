@@ -30,7 +30,7 @@ public class RecipeStateManager {
         if (savePath != null) return savePath;
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         if (server != null) {
-            return server.getServerDirectory().toPath().resolve("config/cre");
+            return server.getServerDirectory().resolve("config/cre");
         }
         return Path.of("config/cre");
     }
