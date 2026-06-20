@@ -70,30 +70,30 @@ public class CREDetailPanel {
             Component.literal(enabled ? "§cDisable" : "§aEnable"),
             b -> handleToggle()
         ).pos(btnX, btnY).size(70, 18).build();
-        parent.addRenderableWidget(toggleBtn);
+        parent.addWidget(toggleBtn);
 
         // Edit (custom recipes only)
         if (isCustomRecipe) {
             editBtn = Button.builder(Component.literal("§eEdit"), b -> handleEdit())
                 .pos(btnX + 75, btnY).size(55, 18).build();
-            parent.addRenderableWidget(editBtn);
+            parent.addWidget(editBtn);
         }
 
         // Clone
         cloneBtn = Button.builder(Component.literal("§bClone"), b -> handleClone())
             .pos(btnX + (isCustomRecipe ? 135 : 75), btnY).size(55, 18).build();
-        parent.addRenderableWidget(cloneBtn);
+        parent.addWidget(cloneBtn);
 
         // View/Hide recipe string
         viewStringBtn = Button.builder(Component.literal("§dString"), b -> showingRawString = !showingRawString)
             .pos(btnX + (isCustomRecipe ? 195 : 135), btnY).size(55, 18).build();
-        parent.addRenderableWidget(viewStringBtn);
+        parent.addWidget(viewStringBtn);
 
         // Delete (only for disabled custom recipes)
         if (isCustomRecipe) {
             deleteBtn = Button.builder(Component.literal("§4Delete"), b -> handleDelete())
                 .pos(x + width - 70, btnY).size(65, 18).build();
-            parent.addRenderableWidget(deleteBtn);
+            parent.addWidget(deleteBtn);
         }
     }
 
