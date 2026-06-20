@@ -83,14 +83,14 @@ public class CRECreatePanel {
             Component.literal("Recipe ID (e.g. cre:my_recipe)"));
         recipeIdBox.setValue(workingEntry.getId());
         recipeIdBox.setResponder(id -> workingEntry.setId(id));
-        parent.addRenderableWidget(recipeIdBox);
+        parent.addWidget(recipeIdBox);
 
         // Recipe type picker
         typePickerBtn = Button.builder(
             Component.literal("Type: " + selectedType.getDisplayName()),
             b -> typePickerOpen = !typePickerOpen
         ).pos(x + 310, controlY).size(200, 16).build();
-        parent.addRenderableWidget(typePickerBtn);
+        parent.addWidget(typePickerBtn);
 
         controlY += 22;
 
@@ -104,7 +104,7 @@ public class CRECreatePanel {
                     rebuildCraftingGrid();
                 }
             ).pos(x, controlY).size(110, 14).build();
-            parent.addRenderableWidget(shapelessBtn);
+            parent.addWidget(shapelessBtn);
         }
 
         // Heat level (for applicable types)
@@ -115,9 +115,9 @@ public class CRECreatePanel {
                 .pos(x + 184, controlY).size(60, 14).build();
             heatSuperBtn = Button.builder(Component.literal("§cSuper"), b -> setHeat("superheated"))
                 .pos(x + 248, controlY).size(70, 14).build();
-            parent.addRenderableWidget(heatNoneBtn);
-            parent.addRenderableWidget(heatHotBtn);
-            parent.addRenderableWidget(heatSuperBtn);
+            parent.addWidget(heatNoneBtn);
+            parent.addWidget(heatHotBtn);
+            parent.addWidget(heatSuperBtn);
         }
 
         controlY += 20;
@@ -133,7 +133,7 @@ public class CRECreatePanel {
                 slot.setChance(1.0f);
                 inputRows.add(new SlotEditRow(slot));
             }).pos(x, controlY).size(90, 14).build();
-            parent.addRenderableWidget(addInputBtn);
+            parent.addWidget(addInputBtn);
 
             addOutputBtn = Button.builder(Component.literal("+ Add Output"), b -> {
                 RecipeSlot slot = new RecipeSlot();
@@ -141,7 +141,7 @@ public class CRECreatePanel {
                 slot.setChance(1.0f);
                 outputRows.add(new SlotEditRow(slot));
             }).pos(x + 100, controlY).size(90, 14).build();
-            parent.addRenderableWidget(addOutputBtn);
+            parent.addWidget(addOutputBtn);
         }
 
         // Raw string toggle
@@ -149,7 +149,7 @@ public class CRECreatePanel {
             Component.literal(showRawMode ? "§dSwitch to Visual" : "§dView/Edit String"),
             b -> showRawMode = !showRawMode
         ).pos(x + width - 130, y).size(125, 16).build();
-        parent.addRenderableWidget(toggleRawModeBtn);
+        parent.addWidget(toggleRawModeBtn);
 
         // Raw string box (hidden unless showRawMode)
         rawStringBox = new EditBox(Minecraft.getInstance().font, x, y + height - 50, width, 40,
@@ -161,7 +161,7 @@ public class CRECreatePanel {
         // Save button
         saveRecipeBtn = Button.builder(Component.literal("§aSave Recipe"), b -> handleSave())
             .pos(x + width / 2 - 50, y + height - 22).size(100, 18).build();
-        parent.addRenderableWidget(saveRecipeBtn);
+        parent.addWidget(saveRecipeBtn);
     }
 
     private void setHeat(String level) {
