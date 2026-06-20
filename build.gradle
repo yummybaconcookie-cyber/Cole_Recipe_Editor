@@ -48,7 +48,6 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:21.1.172"
     compileOnly "dev.latvian.mods:kubejs-neoforge:2101.7.2-build.368"
-    compileOnly "dev.latvian.mods:rhino-neoforge:2101.2.3-build.18"
     compileOnly "mezz.jei:jei-1.21.1-neoforge-api:19.27.0.340"
 }
 
