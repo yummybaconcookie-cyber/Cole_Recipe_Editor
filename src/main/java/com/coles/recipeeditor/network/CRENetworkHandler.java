@@ -4,6 +4,7 @@ import com.coles.recipeeditor.CREMod;
 import com.coles.recipeeditor.kubejs.KubeJSScriptManager;
 import com.coles.recipeeditor.recipe.CRERecipeEntry;
 import com.coles.recipeeditor.recipe.RecipeStateManager;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -49,6 +50,8 @@ public class CRENetworkHandler {
         );
     }
 
+    // ===== Client-side sends =====
+
     public static void sendToggleRecipe(String id, boolean enabled) {
         PacketDistributor.sendToServer(new CRETogglePacket(id, enabled));
     }
@@ -69,9 +72,12 @@ public class CRENetworkHandler {
         PacketDistributor.sendToServer(new CREReloadPacket());
     }
 
+    // ===== Server-side handlers =====
+
     private static void handleToggleOnServer(CRETogglePacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
-            if (!ctx.sender().hasPermissions(2)) return;
+            ServerPlayer sender = (ServerPlayer) ctx.player();
+            if (!sender.hasPermissions(2)) return;
             RecipeStateManager state = RecipeStateManager.getInstance();
             if (payload.enabled()) {
                 state.enableRecipe(payload.recipeId());
@@ -84,7 +90,8 @@ public class CRENetworkHandler {
 
     private static void handleAddRecipeOnServer(CREAddRecipePacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
-            if (!ctx.sender().hasPermissions(2)) return;
+            ServerPlayer sender = (ServerPlayer) ctx.player();
+            if (!sender.hasPermissions(2)) return;
             try {
                 com.google.gson.JsonObject obj = com.google.gson.JsonParser.parseString(payload.entryJson()).getAsJsonObject();
                 CRERecipeEntry entry = CRERecipeEntry.fromJson(obj);
@@ -100,7 +107,8 @@ public class CRENetworkHandler {
 
     private static void handleDeleteOnServer(CREDeleteRecipePacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
-            if (!ctx.sender().hasPermissions(2)) return;
+            ServerPlayer sender = (ServerPlayer) ctx.player();
+            if (!sender.hasPermissions(2)) return;
             RecipeStateManager state = RecipeStateManager.getInstance();
             if (state.isDisabled(payload.recipeId())) {
                 state.removeCustomRecipe(payload.recipeId());
@@ -111,7 +119,8 @@ public class CRENetworkHandler {
 
     private static void handleSaveOnServer(CRESavePacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
-            if (!ctx.sender().hasPermissions(2)) return;
+            ServerPlayer sender = (ServerPlayer) ctx.player();
+            if (!sender.hasPermissions(2)) return;
             KubeJSScriptManager.writeScripts();
             RecipeStateManager.getInstance().saveToDisk();
         });
@@ -119,12 +128,13 @@ public class CRENetworkHandler {
 
     private static void handleReloadOnServer(CREReloadPacket payload, IPayloadContext ctx) {
         ctx.enqueueWork(() -> {
-            if (!ctx.sender().hasPermissions(2)) return;
+            ServerPlayer sender = (ServerPlayer) ctx.player();
+            if (!sender.hasPermissions(2)) return;
             KubeJSScriptManager.writeScripts();
             RecipeStateManager.getInstance().saveToDisk();
-            net.minecraft.server.MinecraftServer server = ctx.sender().getServer();
+            net.minecraft.server.MinecraftServer server = sender.getServer();
             server.reloadResources(server.getPackRepository().getSelectedIds());
-            CREMod.LOGGER.info("[CRE] Server reload triggered by {}", ctx.sender().getName().getString());
+            CREMod.LOGGER.info("[CRE] Server reload triggered by {}", sender.getName().getString());
         });
     }
 }
