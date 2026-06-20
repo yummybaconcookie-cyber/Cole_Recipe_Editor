@@ -19,7 +19,7 @@ public class KubeJSScriptManager {
     public static Path getKubeJSServerScriptsDir() {
         MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
         Path base = server != null
-            ? server.getServerDirectory().toPath()
+            ? server.getServerDirectory()
             : Path.of(".");
         return base.resolve("kubejs/server_scripts");
     }
