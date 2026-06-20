@@ -6,11 +6,11 @@ import com.coles.recipeeditor.recipe.CRERecipeEntry;
 import com.coles.recipeeditor.recipe.RecipeStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -53,6 +53,10 @@ public class CREScreen extends Screen {
 
     public CREScreen() {
         super(Component.literal("Cole's Recipe Editor"));
+    }
+
+    public <T extends AbstractWidget> T addWidget(T widget) {
+        return addRenderableWidget(widget);
     }
 
     @Override
@@ -279,7 +283,7 @@ public class CREScreen extends Screen {
 
         for (int i = startIdx; i < endIdx; i++) {
             RecipeRowData row = displayedRows.get(i);
-            // Click on row (not toggle) → detail view
+            // Click on row (not toggle) -> detail view
             if (mouseX >= panelX && mouseX <= panelX + panelW - 60
                 && mouseY >= rowY && mouseY <= rowY + 13) {
                 openDetailView(row.id);
